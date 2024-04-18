@@ -1,69 +1,86 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import WindowProperties, load_prc_file, LVecBase3f
+from panda3d.core import WindowProperties, load_prc_file, LVecBase3f,LVector3f, DirectionalLight, look_at, Quat
 from direct.task import Task
 import math
 from direct.actor.Actor import Actor
-from math import pi, sin, cos
+from math import atan2, pi
 
 load_prc_file('Config.prc')
+up_vector = LVecBase3f(0, 0, 1)
 
 class App(ShowBase):
 
     def __init__(self, _cv_cam):
-        self.c = 1
         ShowBase.__init__(self)
 
         self.cv_cam = _cv_cam
 
-        self.player1 = Actor("assets/untitled.bam")
-        self.player1.reparentTo(self.render)
-        self.player1.setScale(1,1,1)
-        self.player1.setPos(0, 8, 0)
+        light = DirectionalLight('light')
+        light.setColor((0.6, 0.65, 0.8, 0.3))
+        dlnp = render.attachNewNode(light)
+        render.setLight(dlnp)
 
-        self.player1_nodes = {
-            "rf":self.player1.controlJoint(None, "modelRoot", "right forearm"),
-            "lf":self.player1.controlJoint(None, "modelRoot", "forearm"), # i forgot a left
-            "ru":self.player1.controlJoint(None, "modelRoot", "right upperarm"),
-            "lu":self.player1.controlJoint(None, "modelRoot", "left upperarm") ,
-            "ch":self.player1.controlJoint(None, "modelRoot", "head"),
-            "cb":self.player1.controlJoint(None, "modelRoot", "body"),
+        self.player1_parts = {
+            #"right fist": Actor("assets/box.bam"),
+            #"left fist": Actor("assets/box.bam"),
+            "right shoulder": Actor("assets/player/R_upperarm.bam"),
+            "left shoulder": Actor("assets/player/L_upperarm.bam"),
+            "right elbow": Actor("assets/player/R_forearm.bam"),
+            "left elbow": Actor("assets/player/L_forearm.bam"),
+            "chest": Actor("assets/player/chest.bam"),
+            "head": Actor("assets/player/head.bam")
         }
-        self.rig_joint_nodes = { # start, end
-            "rf":("right elbow", "right fist"),
-            "lf": ("left elbow", "left fist"),
-            "ru": ("right shoulder", "right elbow"),
-            "lu": ("left shoulder", "left elbow"),
-            "ch": ("head start", "head end")
+        self.rig_connections = { # start: end, for angle calculations
+            "right shoulder":"right elbow",
+            "left shoulder": "left elbow",
+            "right elbow": "right fist",
+            "left elbow": "left fist",
         }
-
-        print(self.player1.listJoints())
         
         
         self.taskMgr.add(self.task, "update")
+        #self.taskMgr.add(self.test, "spin")
+
+        for part in self.player1_parts.values():
+            part.reparentTo(self.render)
+            part.setScale(0.4, 0.4, 0.4)
 
     def task(self, task):
-        print(self.c)
-        self.c += 1
-
         cam_coords = self.cv_cam.update()
-
-        for rig_part in self.rig_joint_nodes.keys():
-            parts = self.rig_joint_nodes[rig_part]
-            if ((parts[0] in cam_coords.keys() and parts[1] in cam_coords.keys())):
-                self.update_part(cam_coords, rig_part)
-        
+        self.update_parts(cam_coords)
         return Task.cont
 
-    def update_part(self, coords, part):
-        start = coords[self.rig_joint_nodes[part][0]]
-        end  =  coords[self.rig_joint_nodes[part][1]]
-        diff = LVecBase3f(end[0] - start[0], end[1] - start[1], end[2] - start[2])
-        pos = LVecBase3f(start[0], start[1], 5)#start[2])
-        scale = LVecBase3f(diff.length(), diff.length(), diff.length())
+    def update_parts(self, coords):
+        for key, value in coords.items():
+            if (key in self.player1_parts.keys()):
+                self.player1_parts[key].setPos(value[0], value[2], -value[1])
 
-        #self.player1_nodes[part].setHpr(diff)
-        #self.player1_nodes[part].setPosHpr(pos, diff)
-        self.player1_nodes[part].setPosHprScale(pos, diff, scale)
+                if (key in self.rig_connections):
+                    end = coords[self.rig_connections[key]]
+                    diff = LVecBase3f(value[0] - end[0], value[1] - end[1], value[2] - end[2])
+                    dirvec = self.get_hpr(diff)
+                    #print(dirvec)
+                    self.player1_parts[key].setHpr(dirvec)
+    def test(self, task):
+        angleDegrees = task.time * 6.0
+        self.player1_parts["left elbow"].setHpr(0, angleDegrees, 0)
+                                                    #     forward back  l/r
+        return Task.cont
+
+    def get_hpr(self, vector):
+        
+        #v0 = LVecBase3f(-v.y, v.x, 0)
+        #u0 = v0.cross(v)
+        a = atan2(vector.y, vector.x)
+        b = atan2(vector.z, vector.x)
+        #x = atan(vector.z /vector.y)
+        return LVecBase3f(0, a*180/pi - 90)
+
+    #def get_hpr(self, vector):
+        #quat = Quat()
+        #look_at(quat, vector, LVector3f.up())
+        #return quat.get_hpr()
+
 
 
 
