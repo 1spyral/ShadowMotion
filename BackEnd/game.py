@@ -19,6 +19,7 @@ class Game:
             # Manages players that are in the lobby. Players currently in a game are managed during round.update()
             if p.in_lobby():
                 p.update()
+                # TODO: move player from lobby to round
 
         # TODO: player info, matchmaking
 
