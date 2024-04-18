@@ -1,5 +1,4 @@
 import player
-import client
 
 class Match:
     def __init__(self, red: player.Player, blue: player.Player):

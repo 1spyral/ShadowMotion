@@ -1,7 +1,7 @@
 from collections import deque
 
 import client
-import BackEnd.match as match
+import match
 import player
 
 class Game:
