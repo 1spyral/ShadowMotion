@@ -19,7 +19,7 @@ class Server:
         print(f"Server listening on {host}:{port}")
     
 
-    # Checks for new connections and creates client_handler thread for them
+    # Checks for new connections and creates new Client class to handle it
     def update(self):
         client_socket, client_address = self.server_socket.accept()
         print(f"Accepted connection from {client_address}")
