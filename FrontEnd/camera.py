@@ -39,14 +39,14 @@ class Camera:
             head_start = ((mouth_a.x + mouth_b.x) / 2, (mouth_a.y + mouth_b.y) / 2, (mouth_a.z + mouth_b.z) / 2)
 
             return {
-                "right fist": (right_fist.x, right_fist.y, right_fist.z),
-                "right elbow": (right_elbow.x, right_elbow.y, right_elbow.z),
-                "right shoulder": (right_shoulder.x, right_shoulder.y, right_shoulder.z),
-                "left fist": (left_fist.x, left_fist.y, left_fist.z),
-                "left elbow": (left_elbow.x, left_elbow.y, left_elbow.z),
-                "left shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
-                "head end": (head.x, head.y, head.z),
-                "head start": (head.x, head.y, head.z),
+                "right_fist": (right_fist.x, right_fist.y, right_fist.z),
+                "right_elbow": (right_elbow.x, right_elbow.y, right_elbow.z),
+                "right_shoulder": (right_shoulder.x, right_shoulder.y, right_shoulder.z),
+                "left_fist": (left_fist.x, left_fist.y, left_fist.z),
+                "left_elbow": (left_elbow.x, left_elbow.y, left_elbow.z),
+                "left_shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
+                "head_end": (head.x, head.y, head.z),
+                "head_start": (head.x, head.y, head.z),
                 "chest": (chest_x, chest_y, chest_z),
             }
 
