@@ -24,29 +24,10 @@ class Server:
         client_socket, client_address = self.server_socket.accept()
         print(f"Accepted connection from {client_address}")
         # Create new player
-        player = client.Client()
+        player = client.Client(client_socket)
         self.clients.append(player)
-        # Create client_handler thread
-        client_handler = threading.Thread(target=self.handle_client, args=(client_socket, player))
-        client_handler.start()
 
 
-    def handle_client(client_socket, player: client.Client):
-        while True:
-            # TODO: read a boolean variable from Client telling us to terminate the client socket
-
-
-            # Check for messages from client
-            data = client_socket.recv(1024)
-            if not data:
-                break
-            # Receive message from client
-            message = data.decode('utf-8')
-            player.receive(message)
-            # Send queued messages to client
-            while player.unsent():
-                response = player.send()
-                client_socket.sendall(response.encode('utf-8'))
-        client_socket.close()
-
+    def close(self):
+        self.server_socket.close()
 
