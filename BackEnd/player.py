@@ -1,4 +1,7 @@
 import client
+import match
+
+from const import *
 
 class Player:
     def __init__(self, id: int, client: client.Client):
@@ -7,12 +10,13 @@ class Player:
 
         self.commands: dict[str, function] = {
             "name": self.name,
-            "ready": self.ready
+            "ready": self.ready,
+            "unready": self.unready
         }
 
-        self.hp = 100
         self.name = f"Player {id}"
-        self.fighting = False
+        self.readied = False
+        self.lobby = True
 
     def update(self):
         # TODO: maybe differentiate update method between in game and out-of-game player?
@@ -27,11 +31,34 @@ class Player:
             self.commands[command](args)
         # TODO: update player and send messages back to client
 
+    def join(self, match: match.Match):
+        '''Upon entering a match'''
+        # TODO: tell client that match is joined
+        self.lobby = False
+        self.match = match
+        self.hp = starting_hp
+    
+    def leave(self):
+        '''Upon leaving a match'''
+        # TODO: tell client that match is left
+        self.ready = False
+        self.lobby = True
+        self.match = None
+
+    def in_lobby(self) -> bool:
+        return self.lobby
+    
+    def is_ready(self) -> bool:
+        return self.readied
+
     # Client functions
 
     def name(self, *args: tuple[str]):
         self.name = args[0]
 
     def ready(self, *args):
-        # ready up for matchmaking
-        pass
+        self.readied = True
+
+    def unready(self, *args):
+        # If player is already in match, cannot unready
+        self.readied = False or self.fighting
