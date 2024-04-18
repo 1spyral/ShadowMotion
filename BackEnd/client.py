@@ -1,10 +1,11 @@
 from collections import deque
 import threading
+import socket
 
 from const import *
 
 class Client:
-    def __init__(self, socket):
+    def __init__(self, socket: socket.socket):
         self.socket = socket
 
         # Received messages queue
@@ -35,7 +36,6 @@ class Client:
                 self.socket.sendall(response.encode('utf-8'))
         self.socket.close()
 
-        
 
     # Check if there are unread received messages
     def unread(self) -> bool:
