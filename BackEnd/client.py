@@ -1,10 +1,11 @@
 from collections import deque
 import threading
+import socket
 
 from const import *
 
 class Client:
-    def __init__(self, socket):
+    def __init__(self, socket: socket.socket):
         self.socket = socket
 
         # Received messages queue
@@ -35,28 +36,27 @@ class Client:
                 self.socket.sendall(response.encode('utf-8'))
         self.socket.close()
 
-        
-
-    # Check if there are unread received messages
+    
     def unread(self) -> bool:
+        '''Check if there are unread received messages'''
         return bool(self.received)
 
-    # Receive a message
     def receive(self, text: str) -> None:
+        '''Receive a message'''
         self.received.appendleft(text)
 
-    # Read the oldest received message
     def read(self) -> str:
+        '''Read the oldest received message'''
         return self.received.pop()
 
-    # Check if there are unsent response messages
     def unsent(self) -> bool:
+        '''Check if there are unsent response messages'''
         return bool(self.response)
 
-    # Respond with a message to send to client
-    def respond(self, text: str) -> None:
+    def write(self, text: str) -> None:
+        '''Respond with a message to write to client'''
         self.response.appendleft(text)
     
-    # Return the oldest response message to send to client
     def send(self) -> str:
+        '''Return the oldest response message to write to client'''
         return self.response.pop()

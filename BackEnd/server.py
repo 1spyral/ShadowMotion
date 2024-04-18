@@ -1,5 +1,6 @@
 import socket
 import threading
+from collections import deque
 
 from const import *
 import client
@@ -8,8 +9,8 @@ import client
 # https://pandeyshikha075.medium.com/building-a-chat-server-and-client-in-python-with-socket-programming-c76de52cc1d5
 
 class Server:
-    def __init__(self, clients):
-        self.clients = clients
+    def __init__(self, client_queue: deque[tuple[str, client.Client]]):
+        self.client_queue = client_queue
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.server_socket.bind((host, port))
@@ -21,9 +22,8 @@ class Server:
     def update(self):
         client_socket, client_address = self.server_socket.accept()
         print(f"Accepted connection from {client_address}")
-        # Create new player
-        player = client.Client(client_socket)
-        self.clients.append(player)
+        # Add client to client_queue
+        self.client_queue.appendleft(str(client_address), client.Client(client_socket))
 
 
     def close(self):
