@@ -20,6 +20,7 @@ class Camera:
         # process the frame for pose detection
         pose_results = self.pose.process(frame)
          
+        cv2.imshow("a",frame) 
         if pose_results.pose_landmarks is not None:
             right_fist = pose_results.pose_landmarks.landmark[16]
             right_elbow = pose_results.pose_landmarks.landmark[14]
@@ -34,7 +35,7 @@ class Camera:
 
             mouth_a = pose_results.pose_landmarks.landmark[10]
             mouth_b = pose_results.pose_landmarks.landmark[9]
-            head_start = type("HeadStart", (object,), {"x": (mouth_a.x + mouth_b.x) / 2, "y": (mouth_a.y + mouth_b.y) / 2, "z": (mouth_a.z + mouth_b.z) / 2})()   #((mouth_a.x + mouth_b.x) / 2, (mouth_a.y + mouth_b.y) / 2, (mouth_a.z + mouth_b.z) / 2)
+            head_start = ((mouth_a.x + mouth_b.x) / 2, (mouth_a.y + mouth_b.y) / 2, (mouth_a.z + mouth_b.z) / 2)
 
             return {
                 "right fist": (right_fist.x, right_fist.y, right_fist.z),
@@ -48,7 +49,7 @@ class Camera:
                 "chest": (chest_x, chest_y, chest_z),
             }
 
-        cv2.imshow("a",frame)   
+          
 
         return {}
         

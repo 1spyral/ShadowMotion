@@ -10,6 +10,7 @@ load_prc_file('Config.prc')
 class App(ShowBase):
 
     def __init__(self, _cv_cam):
+        self.c = 1
         ShowBase.__init__(self)
 
         self.cv_cam = _cv_cam
@@ -41,7 +42,8 @@ class App(ShowBase):
         self.taskMgr.add(self.task, "update")
 
     def task(self, task):
-        #print("A")
+        print(self.c)
+        self.c += 1
 
         cam_coords = self.cv_cam.update()
 
@@ -56,10 +58,11 @@ class App(ShowBase):
         start = coords[self.rig_joint_nodes[part][0]]
         end  =  coords[self.rig_joint_nodes[part][1]]
         diff = LVecBase3f(end[0] - start[0], end[1] - start[1], end[2] - start[2])
-        pos = LVecBase3f(start[0], start[1], start[2])
+        pos = LVecBase3f(start[0], start[1], 5)#start[2])
         scale = LVecBase3f(diff.length(), diff.length(), diff.length())
 
         #self.player1_nodes[part].setHpr(diff)
+        #self.player1_nodes[part].setPosHpr(pos, diff)
         self.player1_nodes[part].setPosHprScale(pos, diff, scale)
 
 
