@@ -1,5 +1,6 @@
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import WindowProperties, load_prc_file, LVecBase3f,LVector3f, DirectionalLight, look_at, Quat
+from panda3d.core import PNMImage, Texture, TextureStage
 from direct.task import Task
 import math
 from direct.actor.Actor import Actor
@@ -15,10 +16,26 @@ class App(ShowBase):
 
         self.cv_cam = _cv_cam
 
+        blue = False
+
         light = DirectionalLight('light')
-        light.setColor((0.6, 0.65, 0.8, 0.3))
+        if (blue):
+            light.setColor((0.6, 0.65, 0.9, 0.3))
+        else:
+            light.setColor((0.9, 0.6, 0.65, 0.3))
         dlnp = render.attachNewNode(light)
-        render.setLight(dlnp)
+        self.render.setLight(dlnp)
+
+        #texturing
+        grid = self.loader.loadModel('assets/plane.bam')
+        grid_tex = self.loader.loadTexture("assets/grid.png")
+        ts = TextureStage("ts")
+        grid.setPos(0, 2, -2.5)
+        grid.reparentTo(self.render)
+        grid.setTexture(grid_tex, 0)
+        grid.setLight(dlnp)
+        grid.setTexScale(ts, 3.0/256.0)
+
 
         self.player1_parts = {
             #"right fist": Actor("assets/box.bam"),
@@ -51,12 +68,12 @@ class App(ShowBase):
                 part.setScale(0.35, 0.35, 0.35)
 
     def task(self, task):
-        self.camera.setPos(0.5, -4, -0.5)
+        self.camera.setPos(0.5, -3, -0.5)
         cam_coords = self.cv_cam.update()
-        self.update_parts(cam_coords, task.time)
+        self.update_parts(cam_coords)
         return Task.cont
 
-    def update_parts(self, coords, time):
+    def update_parts(self, coords):
         for key, value in coords.items():
             if (key in self.player1_parts.keys()):
                 self.player1_parts[key].setPos(value[0], value[2], -value[1])
@@ -65,6 +82,8 @@ class App(ShowBase):
                     end = coords[self.rig_connections[key]]
                     diff = LVecBase3f(value[0] - end[0], value[1] - end[1], value[2] - end[2])
                     self.set_hpr(diff, self.player1_parts[key])
+                    
+    
     def test(self, task):
         angleDegrees = task.time * 6.0
         self.player1_parts["left elbow"].setHpr(0, angleDegrees, 0)
