@@ -1,4 +1,7 @@
 import client
+import BackEnd.match as match
+
+from const import *
 
 class Player:
     def __init__(self, id: int, client: client.Client):
@@ -13,9 +16,7 @@ class Player:
 
         self.name = f"Player {id}"
         self.readied = False
-        self.round: int = None # The round that the player is fighting in. If player is in lobby, None
-        self.hp: int
-        self.fighting: bool
+        self.lobby = True
 
     def update(self):
         # TODO: maybe differentiate update method between in game and out-of-game player?
@@ -30,8 +31,20 @@ class Player:
             self.commands[command](args)
         # TODO: update player and send messages back to client
 
+    def join(self, match: match.Match):
+        '''Upon entering a match'''
+        self.lobby = False
+        self.match = match
+        self.hp = starting_hp
+    
+    def leave(self):
+        '''Upon leaving a match'''
+        self.ready = False
+        self.lobby = True
+        self.match = None
+
     def in_lobby(self) -> bool:
-        return self.round is None
+        return self.lobby
     
     def is_ready(self) -> bool:
         return self.readied
