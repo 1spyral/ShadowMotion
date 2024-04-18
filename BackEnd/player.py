@@ -33,12 +33,14 @@ class Player:
 
     def join(self, match: match.Match):
         '''Upon entering a match'''
+        # TODO: tell client that match is joined
         self.lobby = False
         self.match = match
         self.hp = starting_hp
     
     def leave(self):
         '''Upon leaving a match'''
+        # TODO: tell client that match is left
         self.ready = False
         self.lobby = True
         self.match = None

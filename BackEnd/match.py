@@ -5,7 +5,7 @@ class Match:
     def __init__(self, red: player.Player, blue: player.Player):
         self.red = red
         self.blue = blue 
-        # initialize player positions, 
+        # TODO: initialize player positions, etc
 
     def update(self):
         pass
