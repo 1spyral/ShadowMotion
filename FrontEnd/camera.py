@@ -44,7 +44,7 @@ class Camera:
                 "left elbow": (left_elbow.x, left_elbow.y, left_elbow.z),
                 "left shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
                 "head end": (head.x, head.y, head.z),
-                "head start": head_start,
+                "head start": (head.x, head.y, head.z),
                 "chest": (chest_x, chest_y, chest_z),
             }
 
