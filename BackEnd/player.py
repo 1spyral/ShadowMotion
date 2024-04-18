@@ -7,10 +7,12 @@ class Player:
 
         self.commands: dict[str, function] = {
             "name": self.name,
-            "ready": self.ready
+            "ready": self.ready,
+            "unready": self.unready
         }
 
         self.name = f"Player {id}"
+        self.readied = False
         self.round: int = None # The round that the player is fighting in. If player is in lobby, None
         self.hp: int
         self.fighting: bool
@@ -30,6 +32,9 @@ class Player:
 
     def in_lobby(self) -> bool:
         return self.round is None
+    
+    def is_ready(self) -> bool:
+        return self.readied
 
     # Client functions
 
@@ -37,5 +42,8 @@ class Player:
         self.name = args[0]
 
     def ready(self, *args):
-        # ready up for matchmaking
-        pass
+        self.readied = True
+
+    def unready(self, *args):
+        # If player is already in match, cannot unready
+        self.readied = False or self.fighting
