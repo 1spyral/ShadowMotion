@@ -25,7 +25,6 @@ class Server:
         print(f"Accepted connection from {client_address}")
         # Add client to client_queue
         self.client_queue.appendleft((str(client_address), client.Client(client_socket)))
-        client_socket.sendall("hello familia".encode("utf-8"))
 
 
     def close(self):

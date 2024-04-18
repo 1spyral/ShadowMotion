@@ -35,11 +35,11 @@ class Player:
             self.commands[command](args)
         # TODO: update player and send messages back to client
 
-    def join(self, match: match.Match):
+    def join(self, match_id: int):
         '''Upon entering a match'''
         # TODO: tell client that match is joined
         self.lobby = False
-        self.match = match
+        self.match_id = match_id
         self.hp = starting_hp
         self.body = body.Body()
         # TODO: initialize body
