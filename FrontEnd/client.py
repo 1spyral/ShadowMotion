@@ -36,10 +36,10 @@ class Client:
         '''Check if there are unread messages'''
         return bool(self.messages)
 
-    def read(self) -> str:
+    def read(self) -> str | None:
         '''Read the oldest unread message'''
         return self.messages.pop() if self.messages else None
 
     def send(self, text: str) -> None:
         '''Send message to server'''
-        self.socket.sendall(text.encode("utf-8"))
+        self.client_socket.sendall(text.encode("utf-8"))

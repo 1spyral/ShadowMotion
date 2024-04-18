@@ -20,10 +20,12 @@ class Server:
 
     # Checks for new connections and creates new Client class to handle it
     def update(self):
+        # TODO: .accept() will wait until accepted, we need new thread to handle new connections
         client_socket, client_address = self.server_socket.accept()
         print(f"Accepted connection from {client_address}")
         # Add client to client_queue
-        self.client_queue.appendleft(str(client_address), client.Client(client_socket))
+        self.client_queue.appendleft((str(client_address), client.Client(client_socket)))
+        client_socket.sendall("hello familia".encode("utf-8"))
 
 
     def close(self):
