@@ -14,10 +14,8 @@ class Camera:
         if not self.cam.isOpened():
             return 
         # read frame
-        _, frame = self.cam.read()
+        a, frame = self.cam.read()
 
-        if (frame is None):
-            print("\n\n\naaaa\n\n\n")
          
         # process the frame for pose detection
         pose_results = self.pose.process(frame)
@@ -46,12 +44,16 @@ class Camera:
                 "left elbow": (left_elbow.x, left_elbow.y, left_elbow.z),
                 "left shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
                 "head end": (head.x, head.y, head.z),
-                "head start": (head_start.x, head_start.y, head_start.z),
+                "head start": head_start,
                 "chest": (chest_x, chest_y, chest_z),
             }
 
-        return []
+        cv2.imshow("a",frame)   
+
+        return {}
         
     def close(self):
         self.cam.release()
         cv2.destroyAllWindows()
+
+

@@ -46,16 +46,21 @@ class App(ShowBase):
         cam_coords = self.cv_cam.update()
 
         for rig_part in self.rig_joint_nodes.keys():
-            update_part(cam_coords, rig_part)
+            parts = self.rig_joint_nodes[rig_part]
+            if ((parts[0] in cam_coords.keys() and parts[1] in cam_coords.keys())):
+                self.update_part(cam_coords, rig_part)
         
         return Task.cont
 
-    def updatePart(self, coords, part):
+    def update_part(self, coords, part):
         start = coords[self.rig_joint_nodes[part][0]]
         end  =  coords[self.rig_joint_nodes[part][1]]
         diff = LVecBase3f(end[0] - start[0], end[1] - start[1], end[2] - start[2])
         pos = LVecBase3f(start[0], start[1], start[2])
-        scale = LVecBase3f()
+        scale = LVecBase3f(diff.length(), diff.length(), diff.length())
+
+        #self.player1_nodes[part].setHpr(diff)
+        self.player1_nodes[part].setPosHprScale(pos, diff, scale)
 
 
 
