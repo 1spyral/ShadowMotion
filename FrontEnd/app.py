@@ -40,6 +40,7 @@ class App(ShowBase):
         
         self.taskMgr.add(self.task, "update")
         #self.taskMgr.add(self.test, "spin")
+        self.camera.setPos(0.4, -4, -1)
 
         for key, part in self.player1_parts.items():
             part.reparentTo(self.render)
