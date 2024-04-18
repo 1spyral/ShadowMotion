@@ -6,20 +6,20 @@ import math
 from direct.actor.Actor import Actor
 from math import atan2, pi
 
-from client import Client
+#from client import Client
 
 load_prc_file('Config.prc')
 up_vector = LVecBase3f(0, 0, 1)
 
 class App(ShowBase):
 
-    def __init__(self, _cv_cam, client):
+    def __init__(self, _cv_cam):#, client):
         ShowBase.__init__(self)
 
         self.cv_cam = _cv_cam
-        self.client = client
+        #self.client = client
 
-        blue = False
+        blue = True
 
         light = DirectionalLight('light')
         if (blue):
@@ -73,20 +73,20 @@ class App(ShowBase):
     def task(self, task):
         self.camera.setPos(0.5, -3, -0.5)
         cam_coords = self.cv_cam.update()
-        enemy_coords = {}
-        while self.client.unread():
-            msg = self.client.read().split(" ")
-            if msg[0] == "coords":
-                enemy_coords[msg[1]] = (float(msg[2]), float(msg[3]), float(msg[4]))
+        #enemy_coords = {}
+        #while self.client.unread():
+        #    msg = self.client.read().split(" ")
+        #    if msg[0] == "coords":
+        #        enemy_coords[msg[1]] = (float(msg[2]), float(msg[3]), float(msg[4]))
             # enemy_coords body_part x y z      for enemy body
         
-        for nxt in cam_coords:
-            position = nxt
-            x = str(cam_coords[nxt][0])
-            y = str(cam_coords[nxt][1])
-            z = str(cam_coords[nxt][2])
+        #for nxt in cam_coords:
+        #    position = nxt
+        #    x = str(cam_coords[nxt][0])
+        #    y = str(cam_coords[nxt][1])
+        #    z = str(cam_coords[nxt][2])
 
-            self.client.send(" ".join(["coord", position, x, y, z]))
+        #    self.client.send(" ".join(["coord", position, x, y, z]))
         #TODO: render other body given their coords
         self.update_parts(cam_coords)
         return Task.cont

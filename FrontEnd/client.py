@@ -36,7 +36,7 @@ class Client:
         '''Check if there are unread messages'''
         return bool(self.messages)
 
-    def read(self) -> str | None:
+    def read(self) -> str:
         '''Read the oldest unread message'''
         return self.messages.pop() if self.messages else None
 
