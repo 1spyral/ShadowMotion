@@ -23,7 +23,7 @@ class Server:
         client_socket, client_address = self.server_socket.accept()
         print(f"Accepted connection from {client_address}")
         # Add client to client_queue
-        self.client_queue.appendleft(client_address, client.Client(client_socket))
+        self.client_queue.appendleft(str(client_address), client.Client(client_socket))
 
 
     def close(self):
