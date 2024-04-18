@@ -41,16 +41,16 @@ class App(ShowBase):
         self.taskMgr.add(self.task, "update")
         #self.taskMgr.add(self.test, "spin")
 
-        for part in self.player1_parts.values():
+        for key, part in self.player1_parts.items():
             part.reparentTo(self.render)
             part.setScale(0.4, 0.4, 0.4)
 
     def task(self, task):
         cam_coords = self.cv_cam.update()
-        self.update_parts(cam_coords)
+        self.update_parts(cam_coords, task.time)
         return Task.cont
 
-    def update_parts(self, coords):
+    def update_parts(self, coords, time):
         for key, value in coords.items():
             if (key in self.player1_parts.keys()):
                 self.player1_parts[key].setPos(value[0], value[2], -value[1])
@@ -58,24 +58,24 @@ class App(ShowBase):
                 if (key in self.rig_connections):
                     end = coords[self.rig_connections[key]]
                     diff = LVecBase3f(value[0] - end[0], value[1] - end[1], value[2] - end[2])
-                    dirvec = self.get_hpr(diff)
-                    #print(dirvec)
-                    self.player1_parts[key].setHpr(dirvec)
+                    self.set_hpr(diff, self.player1_parts[key])
     def test(self, task):
         angleDegrees = task.time * 6.0
         self.player1_parts["left elbow"].setHpr(0, angleDegrees, 0)
                                                     #     forward back  l/r
         return Task.cont
 
-    def get_hpr(self, vector):
+    def set_hpr(self, vector, node):
         
         #v0 = LVecBase3f(-v.y, v.x, 0)
         #u0 = v0.cross(v)
-        a = atan2(vector.y, vector.x)
-        b = atan2(vector.z, vector.x)
+        left_right = atan2(vector.y, vector.x)
+        forward_backwards = atan2(vector.z, vector.y)
+        idk = atan2(vector.z, vector.x)
         #x = atan(vector.z /vector.y)
-        return LVecBase3f(0, a*180/pi - 90)
-
+        node.setHpr(90-left_right*180/pi, 90 -forward_backwards*180/pi , 0)
+        #node.setHpr(LVecBase3f(0, left_right*180/pi, 0))
+                    #  l/r, f/b, roll
     #def get_hpr(self, vector):
         #quat = Quat()
         #look_at(quat, vector, LVector3f.up())
