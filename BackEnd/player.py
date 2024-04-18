@@ -17,7 +17,7 @@ class Player:
         }
 
         self.name = f"Player {id}"
-        self.readied = False
+        self.readied = True # TODO: implement lobby, true for now
         self.lobby = True
 
         self.body: body.Body
@@ -32,12 +32,18 @@ class Player:
                 args = message[1:]
             except IndexError:
                 args = ()
+            if command not in self.commands:
+                continue
             self.commands[command](args)
         # TODO: update player and send messages back to client
+    
+    def send_enemy(self, body_part, x, y, z):
+        self.write(f"enemy_coords {body_part} {x} {y} {z}")
 
     def join(self, match_id: int):
         '''Upon entering a match'''
         # TODO: tell client that match is joined
+        self.write(f"join {match_id}")
         self.lobby = False
         self.match_id = match_id
         self.hp = starting_hp
@@ -76,3 +82,6 @@ class Player:
     
     def coord(self, *args: tuple[str, str, str]):
         self.body.update(args[0], (float(args[1]), float(args[2]), float(args[3])))
+
+    def write(self, text: str):
+        self.client.write(text)

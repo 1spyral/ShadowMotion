@@ -16,16 +16,21 @@ class Server:
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
         print(f"Server listening on {host}:{port}")
+
+        client_thread = threading.Thread(target=self.clients_loop)
+        client_thread.start()
     
 
     # Checks for new connections and creates new Client class to handle it
     def update(self):
-        # TODO: .accept() will wait until accepted, we need new thread to handle new connections
+        '''Deprecated'''
+        pass
+
+    def clients_loop(self):
         client_socket, client_address = self.server_socket.accept()
         print(f"Accepted connection from {client_address}")
         # Add client to client_queue
         self.client_queue.appendleft((str(client_address), client.Client(client_socket)))
-
 
     def close(self):
         self.server_socket.close()
