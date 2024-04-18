@@ -16,7 +16,7 @@ class Camera:
         # read frame
         _, frame = self.cam.read()
 
-        if (frame == None):
+        if (frame is None):
             print("\n\n\naaaa\n\n\n")
          
         # process the frame for pose detection
