@@ -8,7 +8,7 @@ def main():
     
     client_queue: deque[tuple[str, client.Client]] = deque([])
     server = s.Server(client_queue)
-    game = g.Game()
+    game = g.Game(client_queue)
     
     try:
         while True:
