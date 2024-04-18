@@ -19,7 +19,7 @@ class App(ShowBase):
         self.cv_cam = _cv_cam
         self.client = client
 
-        blue = False
+        blue = self.cam == 0
 
         light = DirectionalLight('light')
         if (blue):
@@ -78,10 +78,17 @@ class App(ShowBase):
             messages = self.client.read().split("\n")
             for i in messages:
                 msg = i.split(" ")
+                print(msg)
+                if msg[0] == "join":
+                    print("joined")
                 if len(msg) < 5:
                     continue
                 if msg[0] == "enemy_coords":
-                    enemy_coords[msg[1]] = (float(msg[2]), float(msg[3]), float(msg[4]))
+                    #print("new enemy coords in")
+                    try:
+                        enemy_coords[msg[1]] = (float(msg[2]), float(msg[3]), float(msg[4]))
+                    except Exception:
+                        print("no")
             # enemy_coords body_part x y z      for enemy body
         
         for nxt in cam_coords:
@@ -92,7 +99,7 @@ class App(ShowBase):
 
             self.client.send(" ".join(["coord", position, x, y, z, ""]))
         #TODO: render other body given their coords
-        self.update_parts(cam_coords)
+        self.update_parts(enemy_coords)
         return Task.cont
 
     def update_parts(self, coords):

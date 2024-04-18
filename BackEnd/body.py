@@ -18,6 +18,7 @@ class Body:
         self.positions[body_part] = coords
 
     def get_positions(self) -> dict[str, tuple[float, float, float]]:
+        #print(self.positions)
         return self.positions
 
     # if a body part collides with another body part

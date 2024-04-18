@@ -22,10 +22,11 @@ class Game:
             if p.in_lobby():
                 p.update()
                 # If player is ready, add to waiting list
-                if p.is_ready():
+                if p.is_ready() and id not in waiting:
                     waiting.append(id)
                     # If waiting list has two members, start a match
                     if len(waiting) == 2:
+                        print(waiting)
                         self.create_match(waiting)
                         # Reset waiting list
                         waiting = []

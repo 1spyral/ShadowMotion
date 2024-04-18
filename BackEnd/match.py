@@ -15,5 +15,7 @@ class Match:
         self.blue.update()
         for body_part, coords in self.red.get_body().get_positions().items():
             self.blue.send_enemy(body_part, coords[0], coords[1], coords[2])
+            #print("sent coords to blue")
         for body_part, coords in self.blue.get_body().get_positions().items():
             self.red.send_enemy(body_part, coords[0], coords[1], coords[2])
+            #print("sent coords to red")

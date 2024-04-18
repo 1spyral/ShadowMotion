@@ -27,9 +27,13 @@ class Player:
         # Read client messages
         while self.client.unread():
             message = self.client.read().split()
+            print("hey")
             if len(message) < 5:
                 continue
             command = message[0]
+            if command.strip() == "coord":
+                self.coord(message[1:])
+                continue
             try:
                 args = message[1:]
             except IndexError:
@@ -83,6 +87,7 @@ class Player:
         self.readied = False or self.fighting
     
     def coord(self, args: list):
+        print("coords updated..")
         self.body.update(args[0], (float(args[1]), float(args[2]), float(args[3])))
 
     def write(self, text: str):
