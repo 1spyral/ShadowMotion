@@ -1,4 +1,5 @@
+import app, camera
 
-
-if __name__ == "__main__":
-    pass
+cv_cam = Camera()
+app = MyApp(cv_cam)
+app.run()
