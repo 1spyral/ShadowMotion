@@ -43,10 +43,15 @@ class App(ShowBase):
 
         for key, part in self.player1_parts.items():
             part.reparentTo(self.render)
-            part.setScale(0.35, 0.35, 0.35)
+            if (key == "head"):
+                part.setScale(0.42, 0.42, 0.42)
+            elif (key == "chest"):
+                part.setScale(0.32, 0.32, 0.32)
+            else:
+                part.setScale(0.35, 0.35, 0.35)
 
     def task(self, task):
-        self.camera.setPos(0.4, -4, -1)
+        self.camera.setPos(0.5, -4, -0.5)
         cam_coords = self.cv_cam.update()
         self.update_parts(cam_coords, task.time)
         return Task.cont
