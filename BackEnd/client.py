@@ -32,7 +32,6 @@ class Client:
             # Send queued messages to client
             while self.unsent():
                 response = self.send()
-                print(response)
                 self.socket.sendall(response.encode('utf-8'))
         self.socket.close()
 

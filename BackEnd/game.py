@@ -8,7 +8,7 @@ class Game:
     def __init__(self, client_queue: deque[tuple[str, client.Client]]):
         self.client_queue = client_queue
 
-        self.players: dict[int, player.Player] = []
+        self.players: dict[int, player.Player] = {}
         self.matches: list[match.Match] = []
         
 
@@ -41,7 +41,7 @@ class Game:
         self.players[id] = new_player
         return new_player
 
-    def create_match(self, waiting: list[int, int]) -> match.Match:
-        new_match = match.Match(waiting[0], waiting[1])
+    def create_match(self, waiting: list[int]) -> match.Match:
+        new_match = match.Match(self.players[waiting[0]], self.players[waiting[1]])
         self.matches.append(new_match)
         return new_match
