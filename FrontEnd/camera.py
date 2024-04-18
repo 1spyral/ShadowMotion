@@ -40,15 +40,21 @@ class Camera:
             mouth_b = pose_results.pose_landmarks.landmark[9]
             head_start = ((mouth_a.x + mouth_b.x) / 2, (mouth_a.y + mouth_b.y) / 2, 5) # (mouth_a.z + mouth_b.z) / 2)
 
+            rfist_z = -abs(right_fist.z)
+            if (rfist_z > -abs(right_elbow.z)):
+                rfist_z -= abs(right_elbow.z)
+            lfist_z = -abs(left_fist.z)
+            if (lfist_z > -abs(left_elbow.z)):
+                lfist_z -= abs(left_elbow.z)
             return {
                 "chest": (chest_x, chest_y, chest_z),
                   "right shoulder": (right_shoulder.x, right_shoulder.y, right_shoulder.z),
-                    "right elbow": (right_elbow.x, right_elbow.y, right_elbow.z),
-                      "right fist": (right_fist.x, right_fist.y, right_fist.z),
+                    "right elbow": (right_elbow.x, right_elbow.y, -abs(right_elbow.z)),
+                      "right fist": (right_fist.x, right_fist.y, -abs(right_fist.z)),
                   "left shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
-                    "left elbow": (left_elbow.x, left_elbow.y, left_elbow.z),
-                      "left fist": (left_fist.x, left_fist.y, left_fist.z),
-                "head": (head.x, head.y, head.z),
+                    "left elbow": (left_elbow.x, left_elbow.y, -abs(left_elbow.z)),
+                      "left fist": (left_fist.x, left_fist.y, -abs(left_fist.z)),
+                "head": (head.x, head.y, head.z + 0.1),
                 #"head start": head_start,#(head.x, head.y, head.z),
             }
 

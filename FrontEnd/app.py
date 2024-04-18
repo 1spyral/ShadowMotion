@@ -43,7 +43,7 @@ class App(ShowBase):
 
         for key, part in self.player1_parts.items():
             part.reparentTo(self.render)
-            part.setScale(0.4, 0.4, 0.4)
+            part.setScale(0.35, 0.35, 0.35)
 
     def task(self, task):
         cam_coords = self.cv_cam.update()

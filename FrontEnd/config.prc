@@ -1,2 +1,2 @@
-window-title Wii fit
+window-title ShadowMotion
 win-size 1280 720
