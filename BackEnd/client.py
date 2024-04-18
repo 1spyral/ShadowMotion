@@ -45,12 +45,10 @@ class Client:
 
     # Read the oldest received message
     def read(self) -> str:
-        self.received.pop()
+        return self.received.pop()
 
     # Check if there are unsent response messages
     def unsent(self) -> bool:
-        print()
-        print(self.response[0])
         return bool(self.response)
 
     # Respond with a message to send to client
@@ -59,4 +57,4 @@ class Client:
     
     # Return the oldest response message to send to client
     def send(self) -> str:
-        self.response.pop()
+        return self.response.pop()
