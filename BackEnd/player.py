@@ -10,9 +10,10 @@ class Player:
             "ready": self.ready
         }
 
-        self.hp = 100
         self.name = f"Player {id}"
-        self.fighting = False
+        self.round: int = None # The round that the player is fighting in. If player is in lobby, None
+        self.hp: int
+        self.fighting: bool
 
     def update(self):
         # TODO: maybe differentiate update method between in game and out-of-game player?
@@ -26,6 +27,9 @@ class Player:
                 args = ()
             self.commands[command](args)
         # TODO: update player and send messages back to client
+
+    def in_lobby(self) -> bool:
+        return self.round is None
 
     # Client functions
 

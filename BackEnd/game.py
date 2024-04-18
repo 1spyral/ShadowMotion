@@ -15,10 +15,11 @@ class Game:
         while self.client_queue:
             self.add_player(self.client_queue.pop())
 
-        for p in self.players:
-            # TODO: manage players
-            pass
-        
+        for id, p in self.players.items():
+            # Manages players that are in the lobby. Players currently in a game are managed during round.update()
+            if p.in_lobby():
+                p.update()
+
         # TODO: player info, matchmaking
 
         for round in self.rounds:
