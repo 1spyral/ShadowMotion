@@ -1,7 +1,7 @@
 import socket
 import threading
 
-from const import const as c
+from const import *
 import client
 
 # Reference for server:
@@ -12,8 +12,6 @@ class Server:
         self.clients = clients
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        host = c[0]
-        port = c[1]
         self.server_socket.bind((host, port))
         self.server_socket.listen(5)
         print(f"Server listening on {host}:{port}")

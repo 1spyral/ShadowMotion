@@ -1,6 +1,8 @@
 from collections import deque
 import threading
 
+from const import *
+
 class Client:
     def __init__(self, socket):
         self.socket = socket
@@ -20,7 +22,7 @@ class Client:
 
 
             # Check for messages from client
-            data = self.socket.recv(1024)
+            data = self.socket.recv(packet_size)
             if not data:
                 break
             # Receive message from client
