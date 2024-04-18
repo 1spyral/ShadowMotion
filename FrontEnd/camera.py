@@ -9,7 +9,7 @@ class Camera:
         self.mp_drawing = mediapipe.solutions.drawing_utils
         self.mp_pose = mediapipe.solutions.pose
         self.pose = self.mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-        self.cam = cv2.VideoCapture(0)
+        self.cam = cv2.VideoCapture(int(input("pick your camera: ")))
 
     def update(self):
 
