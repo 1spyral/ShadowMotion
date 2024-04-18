@@ -1,5 +1,5 @@
 import app, camera
 
-cv_cam = Camera()
-app = MyApp(cv_cam)
+cv_cam = camera.Camera()
+app = app.MyApp(cv_cam)
 app.run()
