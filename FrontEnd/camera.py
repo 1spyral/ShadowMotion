@@ -15,6 +15,9 @@ class Camera:
             return 
         # read frame
         _, frame = self.cam.read()
+
+        if (frame == None):
+            print("\n\n\naaaa\n\n\n")
          
         # process the frame for pose detection
         pose_results = self.pose.process(frame)
@@ -31,14 +34,21 @@ class Camera:
             chest_y = (left_shoulder.y + right_shoulder.y) / 2
             chest_z = (left_shoulder.z + right_shoulder.z) / 2
 
-            return [
-                (right_fist.x, right_fist.y, right_fist.z),
-                (right_elbow.x, right_elbow.y, right_elbow.z),
-                (left_fist.x, left_fist.y, left_fist.z),
-                (left_elbow.x, left_elbow.y, left_elbow.z),
-                (head.x, head.y, head.z),
-                (chest_x, chest_y, chest_z),
-            ]
+            mouth_a = pose_results.pose_landmarks.landmark[10]
+            mouth_b = pose_results.pose_landmarks.landmark[9]
+            head_start = ((mouth_a.x + mouth_b.x) / 2, (mouth_a.y + mouth_b.y) / 2, (mouth_a.z + mouth_b.z) / 2)
+
+            return {
+                "right fist": (right_fist.x, right_fist.y, right_fist.z),
+                "right elbow": (right_elbow.x, right_elbow.y, right_elbow.z),
+                "right shoulder": (right_shoulder.x, right_shoulder.y, right_shoulder.z),
+                "left fist": (left_fist.x, left_fist.y, left_fist.z),
+                "left elbow": (left_elbow.x, left_elbow.y, left_elbow.z),
+                "left shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
+                "head end": (head.x, head.y, head.z),
+                "head start": (head_start.x, head_start.y, head_start.z),
+                "chest": (chest_x, chest_y, chest_z),
+            }
 
         return []
         

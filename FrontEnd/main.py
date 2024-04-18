@@ -1,5 +1,7 @@
-import app, camera
+from app import App 
+from camera import Camera
 
 cv_cam = Camera()
-app = MyApp(cv_cam)
-app.run()
+cv_cam.update()
+#app = App(cv_cam)
+#app.run()
