@@ -46,6 +46,7 @@ class App(ShowBase):
             part.setScale(0.35, 0.35, 0.35)
 
     def task(self, task):
+        self.camera.setPos(0.4, -4, -1)
         cam_coords = self.cv_cam.update()
         self.update_parts(cam_coords, task.time)
         return Task.cont
