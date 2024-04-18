@@ -12,7 +12,7 @@ def main():
     
     try:
         while True:
-            server.update()
+            game.update()
 
     except KeyboardInterrupt:
         server.close()
