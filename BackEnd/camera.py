@@ -1,15 +1,12 @@
 import cv2
 import mediapipe
 
-## initialize pose estimator
-mp_drawing = mediapipe.solutions.drawing_utils
-mp_pose = mediapipe.solutions.pose
-pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-
 class Camera:
      
     def __init__(self):
-          
+        ## initialize pose estimator
+        self.mp_pose = mediapipe.solutions.pose
+        self.pose = self.mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
         self.cam = cv2.VideoCapture(0)
 
     def update(self):
@@ -20,7 +17,7 @@ class Camera:
         _, frame = self.cam.read()
          
         # process the frame for pose detection
-        pose_results = pose.process(frame)
+        pose_results = self.pose.process(frame)
          
         if pose_results.pose_landmarks is not None:
             right_fist = pose_results.pose_landmarks.landmark[16]
