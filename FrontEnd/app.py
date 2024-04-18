@@ -5,7 +5,7 @@ import math
 from direct.actor.Actor import Actor
 from math import pi, sin, cos
 
-load_prc_file('config.prc')
+load_prc_file('Config.prc')
 
 class App(ShowBase):
 
