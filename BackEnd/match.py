@@ -13,7 +13,7 @@ class Match:
         # TODO: update players, player interactions, etc
         self.red.update()
         self.blue.update()
-        for body_part, coords in self.red.get_body.get_positions().items():
+        for body_part, coords in self.red.get_body().get_positions().items():
             self.blue.send_enemy(body_part, coords[0], coords[1], coords[2])
-        for body_part, coords in self.blue.get_body.get_positions().items():
+        for body_part, coords in self.blue.get_body().get_positions().items():
             self.red.send_enemy(body_part, coords[0], coords[1], coords[2])

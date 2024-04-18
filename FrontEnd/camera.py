@@ -48,12 +48,12 @@ class Camera:
                 lfist_z -= abs(left_elbow.z)
             return {
                 "chest": (chest_x, chest_y, chest_z),
-                  "right shoulder": (right_shoulder.x, right_shoulder.y, right_shoulder.z),
-                    "right elbow": (right_elbow.x, right_elbow.y, -abs(right_elbow.z)),
-                      "right fist": (right_fist.x, right_fist.y, -abs(right_fist.z)),
-                  "left shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
-                    "left elbow": (left_elbow.x, left_elbow.y, -abs(left_elbow.z)),
-                      "left fist": (left_fist.x, left_fist.y, -abs(left_fist.z)),
+                  "right_shoulder": (right_shoulder.x, right_shoulder.y, right_shoulder.z),
+                    "right_elbow": (right_elbow.x, right_elbow.y, -abs(right_elbow.z)),
+                      "right_fist": (right_fist.x, right_fist.y, -abs(right_fist.z)),
+                  "left_shoulder": (left_shoulder.x, left_shoulder.y, left_shoulder.z),
+                    "left_elbow": (left_elbow.x, left_elbow.y, -abs(left_elbow.z)),
+                      "left_fist": (left_fist.x, left_fist.y, -abs(left_fist.z)),
                 "head": (head.x, head.y, head.z + 0.1),
                 #"head start": head_start,#(head.x, head.y, head.z),
             }

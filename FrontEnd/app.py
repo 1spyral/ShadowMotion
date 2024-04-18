@@ -24,20 +24,20 @@ class App(ShowBase):
         render.setLight(dlnp)
 
         self.player1_parts = {
-            #"right fist": Actor("assets/box.bam"),
-            #"left fist": Actor("assets/box.bam"),
-            "right shoulder": Actor("assets/player/R_upperarm.bam"),
-            "left shoulder": Actor("assets/player/L_upperarm.bam"),
-            "right elbow": Actor("assets/player/R_forearm.bam"),
-            "left elbow": Actor("assets/player/L_forearm.bam"),
+            #"right_fist": Actor("assets/box.bam"),
+            #"left_fist": Actor("assets/box.bam"),
+            "right_shoulder": Actor("assets/player/R_upperarm.bam"),
+            "left_shoulder": Actor("assets/player/L_upperarm.bam"),
+            "right_elbow": Actor("assets/player/R_forearm.bam"),
+            "left_elbow": Actor("assets/player/L_forearm.bam"),
             "chest": Actor("assets/player/chest.bam"),
             "head": Actor("assets/player/head.bam")
         }
         self.rig_connections = { # start: end, for angle calculations
-            "right shoulder":"right elbow",
-            "left shoulder": "left elbow",
-            "right elbow": "right fist",
-            "left elbow": "left fist",
+            "right_shoulder":"right_elbow",
+            "left_shoulder": "left_elbow",
+            "right_elbow": "right_fist",
+            "left_elbow": "left_fist",
         }
         
         
@@ -58,9 +58,13 @@ class App(ShowBase):
         cam_coords = self.cv_cam.update()
         enemy_coords = {}
         while self.client.unread():
-            msg = self.client.read().split(" ")
-            if msg[0] == "coords":
-                enemy_coords[msg[1]] = (float(msg[2]), float(msg[3]), float(msg[4]))
+            messages = self.client.read().split("\n")
+            for i in messages:
+                msg = i.split(" ")
+                if len(msg) < 5:
+                    continue
+                if msg[0] == "enemy_coords":
+                    enemy_coords[msg[1]] = (float(msg[2]), float(msg[3]), float(msg[4]))
             # enemy_coords body_part x y z      for enemy body
         
         for nxt in cam_coords:
@@ -69,9 +73,9 @@ class App(ShowBase):
             y = str(cam_coords[nxt][1])
             z = str(cam_coords[nxt][2])
 
-            self.client.send(" ".join(["coord", position, x, y, z]))
+            self.client.send(" ".join(["coord", position, x, y, z, ""]))
         #TODO: render other body given their coords
-        self.update_parts(enemy_coords, task.time)
+        self.update_parts(cam_coords, task.time)
         return Task.cont
 
     def update_parts(self, coords, time):
@@ -80,12 +84,14 @@ class App(ShowBase):
                 self.player1_parts[key].setPos(value[0], value[2], -value[1])
 
                 if (key in self.rig_connections):
+                    if self.rig_connections[key] not in coords:
+                        continue
                     end = coords[self.rig_connections[key]]
                     diff = LVecBase3f(value[0] - end[0], value[1] - end[1], value[2] - end[2])
                     self.set_hpr(diff, self.player1_parts[key])
     def test(self, task):
         angleDegrees = task.time * 6.0
-        self.player1_parts["left elbow"].setHpr(0, angleDegrees, 0)
+        self.player1_parts["left_elbow"].setHpr(0, angleDegrees, 0)
                                                     #     forward back  l/r
         return Task.cont
 

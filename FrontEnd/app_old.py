@@ -27,24 +27,24 @@ class App(ShowBase):
 
         self.player1_nodes = {
             "cb":self.player1.controlJoint(None, "modelRoot", "body"),
-              "rs":self.player1.controlJoint(None, "modelRoot", "right shoulder"),
-                "ru":self.player1.controlJoint(None, "modelRoot", "right upperarm"),
-                  "rf":self.player1.controlJoint(None, "modelRoot", "right forearm"),
-              "ls":self.player1.controlJoint(None, "modelRoot", "left shoulder") ,
-                "lu":self.player1.controlJoint(None, "modelRoot", "left upperarm") ,
-                  "lf":self.player1.controlJoint(None, "modelRoot", "left forearm"),
+              "rs":self.player1.controlJoint(None, "modelRoot", "right_shoulder"),
+                "ru":self.player1.controlJoint(None, "modelRoot", "right_upperarm"),
+                  "rf":self.player1.controlJoint(None, "modelRoot", "right_forearm"),
+              "ls":self.player1.controlJoint(None, "modelRoot", "left_shoulder") ,
+                "lu":self.player1.controlJoint(None, "modelRoot", "left_upperarm") ,
+                  "lf":self.player1.controlJoint(None, "modelRoot", "left_forearm"),
               "ch":self.player1.controlJoint(None, "modelRoot", "head"),
         }
         self.rig_joint_nodes = { # start, end
-            "rf":("right elbow", "right fist"),
-            "lf": ("left elbow", "left fist"),
-            "ru": ("right shoulder", "right elbow"),
-            "lu": ("left shoulder", "left elbow"),
+            "rf":("right_elbow", "right_fist"),
+            "lf": ("left_elbow", "left_fist"),
+            "ru": ("right_shoulder", "right_elbow"),
+            "lu": ("left_shoulder", "left_elbow"),
             "ch": ("head start", "head end")
         }
         self.rig_joint_parents = {
-            "rf": ("right elbow", self.player1_nodes["ru"]),
-            "lf": ("left elbow", self.player1_nodes["lu"]),
+            "rf": ("right_elbow", self.player1_nodes["ru"]),
+            "lf": ("left_elbow", self.player1_nodes["lu"]),
             "ru": ("chest", self.player1_nodes["cb"]),
             "lu": ("chest", self.player1_nodes["cb"]),
             "ch": ("chest", self.player1_nodes["cb"]),
@@ -57,12 +57,12 @@ class App(ShowBase):
 
 
         self.boxes = {
-            "right fist": Actor("assets/box.bam"),
-            "left fist": Actor("assets/box.bam"),
-            "right shoulder": Actor("assets/box.bam"),
-            "left shoulder": Actor("assets/box.bam"),
-            "right elbow": Actor("assets/box.bam"),
-            "left elbow": Actor("assets/box.bam"),
+            "right_fist": Actor("assets/box.bam"),
+            "left_fist": Actor("assets/box.bam"),
+            "right_shoulder": Actor("assets/box.bam"),
+            "left_shoulder": Actor("assets/box.bam"),
+            "right_elbow": Actor("assets/box.bam"),
+            "left_elbow": Actor("assets/box.bam"),
             "chest": Actor("assets/box.bam")
         }
         for box in self.boxes.values():

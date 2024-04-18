@@ -42,4 +42,5 @@ class Client:
 
     def send(self, text: str) -> None:
         '''Send message to server'''
+        text += "\n"
         self.client_socket.sendall(text.encode("utf-8"))

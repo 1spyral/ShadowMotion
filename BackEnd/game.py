@@ -42,6 +42,6 @@ class Game:
         return new_player
 
     def create_match(self, waiting: list[int]) -> match.Match:
-        new_match = match.Match(self.players[waiting[0]], self.players[waiting[1]])
+        new_match = match.Match(self.players[waiting[0]], self.players[waiting[1]], 1)
         self.matches.append(new_match)
         return new_match

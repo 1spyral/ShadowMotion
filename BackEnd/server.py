@@ -27,10 +27,11 @@ class Server:
         pass
 
     def clients_loop(self):
-        client_socket, client_address = self.server_socket.accept()
-        print(f"Accepted connection from {client_address}")
-        # Add client to client_queue
-        self.client_queue.appendleft((str(client_address), client.Client(client_socket)))
+        while True:
+            client_socket, client_address = self.server_socket.accept()
+            print(f"Accepted connection from {client_address}")
+            # Add client to client_queue
+            self.client_queue.appendleft((str(client_address), client.Client(client_socket)))
 
     def close(self):
         self.server_socket.close()

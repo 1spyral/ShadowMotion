@@ -28,10 +28,13 @@ class Client:
                 break
             # Receive message from client
             message = data.decode('utf-8')
-            self.receive(message)
+            messages = message.split("\n")
+            for i in messages:
+                self.receive(i)
             # Send queued messages to client
             while self.unsent():
                 response = self.send()
+                response += "\n"
                 self.socket.sendall(response.encode('utf-8'))
         self.socket.close()
 

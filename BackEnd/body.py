@@ -3,15 +3,15 @@ class Body:
     def __init__(self):
         
         self.positions: dict[str, tuple[float, float, float]] = {
-            "right_fist": None,
-            "right_elbow": None,
-            "right_shoulder":None,
-            "left_fist": None,
-            "left_elbow": None,
-            "left_shoulder": None,
-            "head_end":None,
-            "head_start": None,
-            "chest": None,
+            "right_fist": (0,0,0),
+            "right_elbow": (0,0,0),
+            "right_shoulder":(0,0,0),
+            "left_fist": (0,0,0),
+            "left_elbow": (0,0,0),
+            "left_shoulder": (0,0,0),
+            "head_end":(0,0,0),
+            "head_start": (0,0,0),
+            "chest": (0,0,0),
         }
     
     def update(self, body_part: str, coords: tuple[float, float, float]) -> None:
